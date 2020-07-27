@@ -47,19 +47,15 @@ function ContatsList() {
       <th>Name</th>
       <th>Email</th>
       <th>Company</th>
-      <th>Action</th>
     </tr>
   </thead>
   <tbody>
-{contacts.map(contact => ( 
+{contacts.map( (contact , index ) => ( 
                 <tr key={contact._id}>
-                <td>1</td>
+                <td>{index+1}</td>
               <td>{contact.name}</td>
                 <td>{contact.email}</td>
                 <td>{contact.company}</td>
-                <td> 
-                    <Button  >Edit</Button>
-                </td>
               </tr>
     )) }
   </tbody>

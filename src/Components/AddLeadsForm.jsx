@@ -2,11 +2,9 @@ import React ,{useState} from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import {Alert } from '@material-ui/lab'
 
-function AddLeadsForm() {
+function AddLeadsForm({setData , data}) {
 
-  const handleOnSubmit = async (event) => {
-    setLoading(true)
-    event.preventDefault()
+  const handleAdd = async () => {
     var lead = await fetch("http://localhost:4040/leads",{
       method: "POST",
       headers: {
@@ -29,6 +27,44 @@ function AddLeadsForm() {
 
   }
 
+  const handleEdit = async() =>{
+    try{
+    var lead = await fetch("http://localhost:4040/leads",{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth" : localStorage.getItem('crmApplication')
+      },
+      body : JSON.stringify(data)
+    }).then((res) => res.json())
+    if(lead.message === "success"){
+      console.log(lead.message)
+      setLoading(false)
+      setData({status : "new"  , email : '' , description : ""} )
+      setAlert({display : true , message : "Lead Edited successfully"  , severity : "success" })
+    }
+    else{
+      console.log(lead.message)
+      setLoading(false)
+      setAlert({display : true , message : lead.message , severity : "error" })
+    }
+    }catch(err) {
+      setLoading(false)
+      setAlert({display : true , message : "Something went wrong..." , severity : "error" })
+    }
+  }
+
+  const handleOnSubmit = async (event) => {
+    event.preventDefault()
+    setLoading(true)
+
+    if(data._id)
+    handleEdit();
+    else
+    handleAdd();
+
+  }
+
   const handleOnChange = (event) => {
     const prop = event.target.name;
     const value = event.target.value;
@@ -36,7 +72,7 @@ function AddLeadsForm() {
     temp[prop] = value;
     setData(temp)
   }
-  const [data, setData] = useState({email : '' , description : "" , status : "new" })
+  
   const [loading , setLoading ] = useState(false)
   const [alert , setAlert ] = useState({display : false , message : ""  , severity : "error" })
 
@@ -57,7 +93,15 @@ function AddLeadsForm() {
         <Form.Group as={Col} >
           <Form.Label  htmlFor="inlineFormCustomSelect">Status</Form.Label>
           <Form.Control as="select" id="inlineFormCustomSelect" onChange={handleOnChange} value={data.status} name="status" >
+            {data._id ? <> 
             <option value="new">new</option>
+            <option value="contacted">Contacted</option>
+            <option value="Qualified">Qualified</option>
+            <option value="Lost">Lost</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Confirmed">Confirmed</option>
+            </> : <option value="new">new</option> }
+            
           </Form.Control>
           </Form.Group>
 

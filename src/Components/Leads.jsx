@@ -5,23 +5,24 @@ import LeadList from "./LeadList";
 
 function Leads() {
   const [show, setShow] = useState("none");
+  const [data, setData] = useState({email : '' , description : "" , status : "new" })
   return (
     <div>
       <Container fluid>
         <Row>
           <Col>
             <h2 className="float-left">Leads</h2>
-  <Button className="float-right" onClick={() => {if(show === "none") setShow("flex"); else setShow("none"); }} >{show === "none" ? "New lead" : "Close"  }</Button>
+  <Button className="float-right" onClick={() => {if(show === "none") setShow("flex"); else setShow("none"); setData({email : '' , description : "" , status : "new" }) }} >{show === "none" ? "New lead" : "Close"  }</Button>
           </Col>
         </Row>
         <Row style={{display : show }}>
           <Col>
-            <AddLeadsForm />
+            <AddLeadsForm data={data} setData={setData} />
           </Col>
         </Row>
         <Row>
           <Col>
-            <LeadList />
+            <LeadList setData={setData} setShow={setShow} />
           </Col>
         </Row>
       </Container>

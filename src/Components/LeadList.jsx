@@ -3,7 +3,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import {Alert , AlertTitle} from '@material-ui/lab'
 import {Table , Button } from 'react-bootstrap'
 
-function LeadList() {
+function LeadList({setData , setShow}) {
     useEffect(() => {
         fetch("http://localhost:4040/leads", {
             method : "GET",
@@ -25,6 +25,30 @@ function LeadList() {
            setAlert({display : true , message : "Something went wrong try again later" })
         })
    }, [])
+
+   const reRender = () => {
+    fetch("http://localhost:4040/leads", {
+      method : "GET",
+      headers : {
+         "auth" : localStorage.getItem('crmApplication')
+      }
+  } ).then(res => res.json()).then((data) =>{
+      // Upadte 
+      setLoading(false)
+      if(data.message === "success"){
+         console.log(data)
+         setLeads(data.leads)
+      }
+      else{
+         setAlert({display : true , message : data.message })
+      }
+  }).catch((err) => {
+    setLoading(false)
+     setAlert({display : true , message : "Something went wrong try again later" })
+  })
+}
+   
+
    const [leads , setLeads ] =useState([])
    const [loading , setLoading ] = useState(true)
    const [alert , setAlert ] = useState({display : false , message : "" })
@@ -59,7 +83,7 @@ function LeadList() {
                <td>{lead.status}</td>
                <td>{lead.createdBy.name}</td>
                <td> 
-                   <Button>Edit</Button>
+                   <Button onClick={()=>{setData({_id : lead._id , email : lead.email , description : lead.description , status : lead.status }); setShow("flex");}}>Edit</Button>
                </td>
              </tr>
    )) }

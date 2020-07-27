@@ -1,10 +1,15 @@
 import React , {useState} from 'react'
 import {Form , Col, Button } from 'react-bootstrap'
+import {Alert } from '@material-ui/lab'
 
 function AddContactsForm() {
     
   const handleOnSubmit = async (event) => {
+
+    setLoading(true)
+
     event.preventDefault()
+    try{
     var contact = await fetch("http://localhost:4040/contact",{
       method: "POST",
       headers: {
@@ -15,10 +20,18 @@ function AddContactsForm() {
     }).then((res) => res.json())
     if(contact.message === "success"){
       console.log(contact.message)
+      setLoading(false)
+      setAlert({display : true , message : "service created successfully"  , severity : "success" })
     }
     else{
       console.log(contact.message)
+      setLoading(false)
+      setAlert({display : true , message : contact.message , severity : "error" })
     }
+  }catch(err){
+    setLoading(false)
+    setAlert({display : true , message : "Something went wrong..." , severity : "error" })
+  }
 
   }
 
@@ -32,9 +45,12 @@ function AddContactsForm() {
 
   const [data, setData] = useState({email : '' , name : "" , company : "" })
   const [loading , setLoading ] = useState(false)
-  const [alert , setAlert ] = useState({display : "none" , message : "" })
+  const [alert , setAlert ] = useState({display : false , message : "" ,severity : "error" })
 
     return (
+      <>
+      { alert.display ?  <Alert severity={alert.severity} onClose={() => { setAlert( {display : false} ) }} >{alert.message}</Alert> : <></> }
+    
 <Form onSubmit={handleOnSubmit} >
   <Form.Row>
     <Col md={3}>
@@ -47,10 +63,11 @@ function AddContactsForm() {
       <Form.Control placeholder="company" type="text" onChange={handleOnChange} name="company" value={data.company} />
     </Col>
     <Col md={3}>
-      <Button type="submit" >Submit</Button>
+      <Button type="submit" disabled={loading}>{loading ? "Please Wait" : "Submit"}</Button>
     </Col>
   </Form.Row>
 </Form>
+</>
     )
 }
 

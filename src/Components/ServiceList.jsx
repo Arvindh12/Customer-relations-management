@@ -3,7 +3,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import {Alert , AlertTitle} from '@material-ui/lab'
 import {Table , Button } from 'react-bootstrap'
 
-function ServiceList() {
+function ServiceList({setShow , setData}) {
         useEffect(() => {
             fetch("http://localhost:4040/service", {
                 method : "GET",
@@ -59,7 +59,7 @@ function ServiceList() {
                    <td>{service.status}</td>
                    <td>{service.createdBy.name}</td>
                    <td> 
-                       <Button>Edit</Button>
+                       <Button onClick={() => {setShow('flex'); setData({_id : service._id , email : service.email , description : service.description , status : service.status }); } } >Edit</Button>
                    </td>
                  </tr>
        )) }
