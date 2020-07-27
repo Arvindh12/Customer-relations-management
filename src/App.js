@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import LoggedIn from "./Page/LoggedIn";
+import { connect } from "react-redux";
+import { Switch, Route, Redirect } from "react-router-dom";
+import LoggedOut from "./Page/LoggedOut";
+import Login from "./Components/Login";
+import Register from "./Components/Register";
+import Contacts from "./Components/Contacts";
+import Leads from "./Components/Leads";
+import Service from "./Components/Service";
+import Dashboard from "./Components/Dashboard";
+import AllowAccess from './Components/AllowAccess'
 
-function App() {
+function App({currentUser}) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Switch>
+        <Route exact path="/login">
+          { currentUser === null?  <LoggedOut LoginOrRegister={Login} />  : <Redirect to="/"> </Redirect> } 
+        </Route>
+        <Route exact path="/Register">
+        { currentUser === null?  <LoggedOut LoginOrRegister={Register} />  : <Redirect to="/"> </Redirect> } 
+        </Route>
+        <Route path="/contacts">
+          { currentUser !== null? <LoggedIn Component={Contacts} />  : <Redirect to="/login"> </Redirect> } 
+        </Route>
+        <Route path="/service">
+          { currentUser !== null? <LoggedIn Component={Service} />  : <Redirect to="/login"> </Redirect> } 
+        </Route>
+        <Route path="/Leads">
+          { currentUser !== null? <LoggedIn Component={Leads} />  : <Redirect to="/login"> </Redirect> } 
+        </Route>
+        <Route path="/access">
+          { currentUser !== null? <LoggedIn Component={AllowAccess} />  : <Redirect to="/login"> </Redirect> } 
+        </Route>
+        <Route path="/" exact>
+          { currentUser !== null? <LoggedIn Component={Dashboard} />  : <Redirect to="/login"> </Redirect> } 
+        </Route>
+      </Switch>
+    </>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(App);
