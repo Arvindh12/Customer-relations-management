@@ -5,7 +5,7 @@ import {Table , Button } from 'react-bootstrap'
 
 function LeadList({setData , setShow}) {
     useEffect(() => {
-        fetch("http://localhost:4040/leads", {
+        fetch("https://crm-serve.herokuapp.com/leads", {
             method : "GET",
             headers : {
                "auth" : localStorage.getItem('crmApplication')
@@ -27,7 +27,7 @@ function LeadList({setData , setShow}) {
    }, [])
 
    const reRender = () => {
-    fetch("http://localhost:4040/leads", {
+    fetch("https://crm-serve.herokuapp.com/leads", {
       method : "GET",
       headers : {
          "auth" : localStorage.getItem('crmApplication')

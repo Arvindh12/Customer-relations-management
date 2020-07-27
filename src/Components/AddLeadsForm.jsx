@@ -5,7 +5,7 @@ import {Alert } from '@material-ui/lab'
 function AddLeadsForm({setData , data}) {
 
   const handleAdd = async () => {
-    var lead = await fetch("http://localhost:4040/leads",{
+    var lead = await fetch("https://crm-serve.herokuapp.com/leads",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ function AddLeadsForm({setData , data}) {
 
   const handleEdit = async() =>{
     try{
-    var lead = await fetch("http://localhost:4040/leads",{
+    var lead = await fetch("https://crm-serve.herokuapp.com/leads",{
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

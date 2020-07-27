@@ -28,7 +28,7 @@ function Register() {
       return
     }
     try {
-    var user = await fetch("http://localhost:4040/register",{
+    var user = await fetch("https://crm-serve.herokuapp.com/register",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

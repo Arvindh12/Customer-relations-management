@@ -5,7 +5,7 @@ import {Table , Button } from 'react-bootstrap'
 
 function ContatsList() {
     useEffect(() => {
-         fetch("http://localhost:4040/contact", {
+         fetch("https://crm-serve.herokuapp.com/contact", {
              method : "GET",
              headers : {
                 "auth" : localStorage.getItem('crmApplication')

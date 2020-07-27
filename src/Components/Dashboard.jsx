@@ -8,7 +8,7 @@ const Dashboard = ({ currentUser }) => {
     let history = useHistory()
 
     useEffect(()=>{
-        fetch("http://localhost:4040/dashboard", {
+        fetch("https://crm-serve.herokuapp.com/dashboard", {
             method : "GET",
             headers : {
                "auth" : localStorage.getItem('crmApplication')

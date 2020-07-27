@@ -6,7 +6,7 @@ import {Table , Button ,Dropdown } from 'react-bootstrap'
 function AllowAccess() {
 
     useEffect(() =>{
-        fetch("http://localhost:4040/access",{
+        fetch("https://crm-serve.herokuapp.com/access",{
       method: "GET",
       headers: {
         "auth" : localStorage.getItem('crmApplication')
@@ -23,7 +23,7 @@ function AllowAccess() {
     } , [] )
 
     const reRender = () => {
-        fetch("http://localhost:4040/access",{
+        fetch("https://crm-serve.herokuapp.com/access",{
       method: "GET",
       headers: {
         "auth" : localStorage.getItem('crmApplication')
@@ -44,7 +44,7 @@ function AllowAccess() {
 
     const handleChange = (id , permission ) => {
         console.log(id , permission)
-        fetch("http://localhost:4040/access",{
+        fetch("https://crm-serve.herokuapp.com/access",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

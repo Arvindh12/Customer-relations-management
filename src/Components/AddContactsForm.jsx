@@ -10,7 +10,7 @@ function AddContactsForm() {
 
     event.preventDefault()
     try{
-    var contact = await fetch("http://localhost:4040/contact",{
+    var contact = await fetch("https://crm-serve.herokuapp.com/contact",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

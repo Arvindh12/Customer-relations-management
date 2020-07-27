@@ -6,7 +6,7 @@ function AddServiceForm({setData , data}) {
 
   const handleAdd = async () => {
 
-    var service = await fetch("http://localhost:4040/service",{
+    var service = await fetch("https://crm-serve.herokuapp.com/service",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ function AddServiceForm({setData , data}) {
 
   const handleEdit = async () => {
     try{
-    var service = await fetch("http://localhost:4040/service",{
+    var service = await fetch("https://crm-serve.herokuapp.com/service",{
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
