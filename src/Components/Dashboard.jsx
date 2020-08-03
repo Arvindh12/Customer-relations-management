@@ -3,19 +3,25 @@ import { connect } from "react-redux";
 import { Card, Container, Row, Col ,Button } from "react-bootstrap";
 import {Alert , AlertTitle} from '@material-ui/lab'
 import {useHistory} from 'react-router-dom'
+import { setCurrentUser } from "../Redux/User/user-actions";
 
-const Dashboard = ({ currentUser }) => {
+const Dashboard = ({ currentUser ,setCurrentUser }) => {
     let history = useHistory()
 
     useEffect(()=>{
+        
         fetch("https://crm-serve.herokuapp.com/dashboard", {
             method : "GET",
             headers : {
                "auth" : localStorage.getItem('crmApplication')
             }
         }).then(res => res.json()).then((data) =>{ 
+            if(data.message === "authorization failed"){
+              setCurrentUser(null);
+            } else{
             console.log(data)
-            setstate(data)
+            setstate(data) 
+          }
     })} , [] )
 
     const [state, setstate] = useState({service : "" , leads : "" , contacts : "" })
@@ -74,4 +80,8 @@ const mapStateToProps = (state) => ({
   currentUser : state.user.currentUser
 });
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser : (user) => dispatch(setCurrentUser(user))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps )(Dashboard);

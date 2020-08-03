@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import LoggedIn from "./Page/LoggedIn";
 import { connect } from "react-redux";
